@@ -288,6 +288,7 @@ namespace RhythmCrash
             if (theHazard.Position.Y > graphics.GraphicsDevice.Viewport.Height && theHazard.Visible == true)
             {
                 theHazard.Visible = false;
+                
                 mHazardsCombo = 0;
                 //Miss
                 //mHazardsPassed += 1;
@@ -346,14 +347,9 @@ namespace RhythmCrash
 
         private void AddHazard()
         {
-            int aRoadPosition = mRandom.Next(1, 3);
-            int aPosition = 275;
-            if (aRoadPosition == 2)
-            {
-                aPosition = 440;
-            }
+            int aPosition = mLastHazardAtLeft ? 440 : 275;
 
-            /*bool aAddNewHazard = true;
+            bool aAddNewHazard = true;
             foreach (Hazard aHazard in mHazards)
             {
                 if (aHazard.Visible == false)
@@ -365,21 +361,21 @@ namespace RhythmCrash
                 }
             }
 
-            if (aAddNewHazard == true) */
-            if (mHazards.Count < 1)
+            if (aAddNewHazard == true)
+            /*if (mHazards.Count < 1)
             {
                 Hazard aHazard = new Hazard();
                 aHazard.Position = new Vector2(aPosition, -mHazard.Height);
                 mHazards.Add(aHazard);
             }
-            else
+            else*/
             {
                 //Add a hazard to the different side to the previous one
                 Hazard aHazard = new Hazard();
 
-                Vector2 lastPos = mHazards[mHazards.Count - 1].Position;
+                //Vector2 lastPos = mHazards[mHazards.Count - 1].Position;
 
-                aHazard.Position = new Vector2(lastPos.X == 275 ? 440 : 275, -mHazard.Height);
+                aHazard.Position = new Vector2(aPosition, -mHazard.Height);
                 mHazards.Add(aHazard);
             }
         }
@@ -509,16 +505,21 @@ namespace RhythmCrash
             }
         }
 
+        private bool mLastHazardAtLeft;
         private void DrawHazards()
         {
-            bool flag = false;
+            float mLastHazardY = 800;
             foreach (Hazard aHazard in mHazards)
             {
                 if (aHazard.Visible == true)
                 {
 
                     spriteBatch.Draw(mHazard, aHazard.Position, new Rectangle(0, 0, mHazard.Width, mHazard.Height), Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 0);
-                    flag = !flag;
+                    if (aHazard.Position.Y <= mLastHazardY)
+                    {
+                        mLastHazardAtLeft = (aHazard.Position.X == 275);
+                        mLastHazardY = aHazard.Position.Y;
+                    }
                 }
             }
         }
