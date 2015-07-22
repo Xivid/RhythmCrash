@@ -23,6 +23,9 @@ namespace RhythmHit
         private Texture2D mRoad;
         private Texture2D mHazard;
         private Texture2D mCar;
+        private Texture2D mLeft, mRight;
+        private List<string> mBeatmap = new List<string>();
+        private List<Texture2D> mAlbums = new List<Texture2D>();
 
         private KeyboardState mPreviousKeyboardState;
         SpriteBatch spriteBatch, signBatch;
@@ -38,6 +41,7 @@ namespace RhythmHit
 
         private int[] mRoadY = new int[2]; //使用两张路面
         private List<Hazard> mHazards = new List<Hazard>();
+        private List<Song> mMusics = new List<Song>();
 
         // 定义随机数 - 比方用来表示障碍物的位置
         private Random mRandom = new Random();
@@ -47,12 +51,13 @@ namespace RhythmHit
 
         private bool loadFail = false;
         private int difficulty = 2;
+        private int musicChosen = 0;
+        private List<string> musicNames;
         private int noteCounter = 0;
         private double deltaTime;
         private JSONNode beatmap;
         private JSONArray hitObjects;
         private JSONArray nowObject;
-        private Song music;
         private SoundEffect hitSE;
 
         //----------------------- Feng ---------------------
@@ -107,43 +112,22 @@ namespace RhythmHit
             mBackground = Content.Load<Texture2D>("Images/Background");
             mRoad = Content.Load<Texture2D>("Images/Road");
             mHazard = Content.Load<Texture2D>("Images/Hazard");
-
+            mLeft = Content.Load<Texture2D>("Images/left");
+            mRight = Content.Load<Texture2D>("Images/right");
             // 定义字体
             mFont = Content.Load<SpriteFont>("MyFont");
-
-            // Read beatmap
-            StreamReader sr = new StreamReader("../../../../RhythmHitContent/Music/CroatianRhapsody/beatmap");
-            beatmap = JSON.Parse(sr.ReadToEnd());
-            switch (difficulty)
+            
+            // 载入曲库
+            musicNames = Directory.GetDirectories(Content.RootDirectory + "/Music/").ToList();
+            for (int i = 0; i < musicNames.Count; i++)
             {
-                case 0:
-                    hitObjects = beatmap["GameObject"]["Easy"].AsArray;
-                    break;
-                case 1:
-                    hitObjects = beatmap["GameObject"]["Normal"].AsArray;
-                    break;
-                case 2:
-                    hitObjects = beatmap["GameObject"]["Hard"].AsArray;
-                    break;
-                default:
-                    return;
+                string[] dirs = musicNames[i].Split('/');
+                musicNames[i] = dirs[dirs.Length - 1];
+                mAlbums.Add(Content.Load<Texture2D>("Music/" + musicNames[i] + "/Album")); // 载入所有封面
+                mMusics.Add(Content.Load<Song>("Music/" + musicNames[i] + "/" + musicNames[i]));
+                mBeatmap.Add(Content.Load<string>("Music/" + musicNames[i] + "/beatmap"));
             }
 
-            if (beatmap == null || hitObjects == null)
-                loadFail = true;
-
-            hitSE = Content.Load<SoundEffect>("Music/CroatianRhapsody/hit");
-            if (hitSE == null)
-                loadFail = true;
-
-            music = Content.Load<Song>("Music/CroatianRhapsody/CroatianRhapsody");
-            if (music == null)
-                loadFail = true;
-
-            if (loadFail)
-                this.Exit();
-
-            sr.Close();
         }
 
         /// <summary>
@@ -167,12 +151,42 @@ namespace RhythmHit
             mCurrentRoadIndex = 0;  //从第0张路面开始
             mHazards.Clear();
 
+            // Read beatmap
+            String musicname = musicNames[musicChosen];
+            beatmap = JSON.Parse(mBeatmap[musicChosen]);
+            switch (difficulty)
+            {
+                case 0:
+                    hitObjects = beatmap["GameObject"]["Easy"].AsArray;
+                    break;
+                case 1:
+                    hitObjects = beatmap["GameObject"]["Normal"].AsArray;
+                    break;
+                case 2:
+                    hitObjects = beatmap["GameObject"]["Hard"].AsArray;
+                    break;
+                default:
+                    return;
+            }
+
+            if (beatmap == null || hitObjects == null)
+                loadFail = true;
+
+            hitSE = Content.Load<SoundEffect>("Music/" + musicname + "/hit");
+            if (hitSE == null)
+                loadFail = true;
+
+            if (loadFail)
+                this.Exit();
+
+            
+
             mCurrentState = State.Running;
 
             noteCounter = 0;
             nowObject = hitObjects[0].AsArray;
 
-            MediaPlayer.Play(music);
+            MediaPlayer.Play(mMusics[musicChosen]);
         }
 
         /// <summary>
@@ -196,11 +210,38 @@ namespace RhythmHit
             switch (mCurrentState)
             {
                 case State.TitleScreen:
+                    {
+                        if (MediaPlayer.State == MediaState.Stopped)
+                            MediaPlayer.Play(mMusics[musicChosen]);
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true && mPreviousKeyboardState.IsKeyDown(Keys.Left) == false && musicChosen > 0)
+                        {
+                            musicChosen--;
+                            MediaPlayer.Play(mMusics[musicChosen]);
+                        }
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true && mPreviousKeyboardState.IsKeyDown(Keys.Right) == false && musicChosen < musicNames.Count - 1)
+                        {
+                            musicChosen++;
+                            MediaPlayer.Play(mMusics[musicChosen]);
+                        }
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Up) == true && mPreviousKeyboardState.IsKeyDown(Keys.Up) == false && difficulty < 2)
+                        {
+                            difficulty++;
+                        }
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Down) == true && mPreviousKeyboardState.IsKeyDown(Keys.Down) == false && difficulty > 0)
+                        {
+                            difficulty--;
+                        }
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
+                        {
+                            StartGame();
+                        }
+                        break;
+                    }
                 case State.Success:
                     {
                         if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                         {
-                            StartGame();
+                            mCurrentState = State.TitleScreen;
                         }
                         break;
                     }
@@ -230,7 +271,7 @@ namespace RhythmHit
                             mCurrentState = State.Success;
                             break;
                         }
-
+                        
                         //Change: Use Left and Right arrows to control
                         if ((aCurrentKeyboardState.IsKeyDown(Keys.Left) == true && mPreviousKeyboardState.IsKeyDown(Keys.Left) == false && mMoveCarX < 0)
                             || (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true && mPreviousKeyboardState.IsKeyDown(Keys.Right) == false && mMoveCarX > 0))
@@ -250,7 +291,7 @@ namespace RhythmHit
                             }
                         }
 
-                        UpdateHazards(gameTime);
+                        UpdateHazards();
                         break;
                     }
             }
@@ -290,18 +331,18 @@ namespace RhythmHit
             }
         }
 
-        private void UpdateHazards(GameTime theGameTime)
+        private void UpdateHazards()
         {
             if (nowObject[1].AsDouble <= MediaPlayer.PlayPosition.TotalSeconds + (600.0 / mVelocityY) * 0.9)
             {
-                if (nowObject[0].AsInt >= 0)
-                    AddHazard();
-
-                noteCounter++;
                 if (noteCounter < hitObjects.Count)
+                {
+                    AddHazard();
+                    noteCounter++;
+                    if (noteCounter == hitObjects.Count)
+                        return;
                     nowObject = hitObjects[noteCounter].AsArray;
-                else
-                    return;
+                }
             }
         }
 
@@ -378,10 +419,26 @@ namespace RhythmHit
                 case State.TitleScreen:
                     {
                         //Draw the display text for the Title screen
-                        DrawTextCentered("Drive and Hit the Rhythm", 80, 2.0f, Color.Red);
-                        //spriteBatch.Draw(
-                        DrawTextCentered("Press 'Space' to begin", 500, 1.0f, Color.LightGray);
-
+                        DrawTextCentered("Drive and Hit the Rhythm", 30, 2.0f, Color.Red);
+                        DrawTextCentered("Press Left/Right to select difficulty, Up/Down to select songs, Space to begin", 100, 0.8f, Color.LightGray);
+                        if (musicChosen > 0)
+                            spriteBatch.Draw(mLeft, new Rectangle(30, 280, 100, 80), Color.White);
+                        if (musicChosen < musicNames.Count - 1)
+                            spriteBatch.Draw(mRight, new Rectangle(680, 280, 100, 80), Color.White);
+                        spriteBatch.Draw(mAlbums[musicChosen], new Rectangle(155, 140, 500, 350), Color.White);
+                        DrawTextCentered(musicNames[musicChosen], 500, 1.5f, Color.White);
+                        switch (difficulty)
+                        {
+                            case 0:
+                                DrawTextCentered("Easy", 550, 1.0f, Color.Green);
+                                break;
+                            case 1:
+                                DrawTextCentered("Normal", 550, 1.0f, Color.Yellow);
+                                break;
+                            case 2:
+                                DrawTextCentered("Hard", 550, 1.0f, Color.Red);
+                                break;
+                        }
                         break;
                     }
 
@@ -390,9 +447,9 @@ namespace RhythmHit
                         DrawRoad();
                         DrawHazards(gameTime);
                         spriteBatch.Draw(mCar, mCarPosition, new Rectangle(0, 0, mCar.Width, mCar.Height), Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 0);
-
-                        spriteBatch.DrawString(mFont, "Combo: \n" + mHazardsCombo.ToString(), new Vector2(28, 520), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         spriteBatch.DrawString(mFont, "Score: \n" + mScore.ToString(), new Vector2(28, 25), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Combo: \n" + mHazardsCombo.ToString(), new Vector2(28, 520), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        
                         if (mCurrentState == State.Success)
                         {
                             DrawTextDisplayArea();
@@ -411,7 +468,7 @@ namespace RhythmHit
                             DrawTextCentered("Perfect: " + mHazardsPerfect.ToString(), 190, 2.0f, Color.Purple);
                             DrawTextCentered("Good: " + mHazardsGood.ToString(), 230, 2.0f, Color.Purple);
                             DrawTextCentered("Miss: " + mHazardsMiss.ToString(), 270, 2.0f, Color.Purple);
-                            DrawTextCentered("Press 'Space' to play again.", 400, 1.0f, Color.LightGray);
+                            DrawTextCentered("Press 'Space' to go back.", 400, 1.0f, Color.LightGray);
                         }
                         else if (mCurrentState == State.Paused)
                         {
