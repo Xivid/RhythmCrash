@@ -7,9 +7,17 @@ namespace RhythmCrash
 {
     class Hazard
     {
+        public enum Sign
+        {
+            Perfect,
+            Good,
+            Miss,
+            Undecided
+        }
         public Vector2 Position;
         public bool Visible = true;
-
+        public Sign sign = Sign.Undecided;
+        public double SignDisplayTime;
         public Hazard()
         {
         }
