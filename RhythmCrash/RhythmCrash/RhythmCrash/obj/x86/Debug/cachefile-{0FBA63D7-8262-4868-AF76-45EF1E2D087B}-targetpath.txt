@@ -1,8 +1,0 @@
-Content\Images\Background.xnb
-Content\Images\Car.xnb
-Content\Images\Hazard.xnb
-Content\Images\Road.xnb
-Content\Music\CroatianRhapsody\CroatianRhapsody.xnb
-Content\Music\CroatianRhapsody\CroatianRhapsody.wma
-Content\Music\CroatianRhapsody\hit.xnb
-Content\MyFont.xnb
