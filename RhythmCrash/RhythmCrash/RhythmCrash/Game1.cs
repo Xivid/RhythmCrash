@@ -24,7 +24,7 @@ namespace RhythmCrash
         private Texture2D mHazard;
 
         private KeyboardState mPreviousKeyboardState;
-        SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch, signBatch;
 
 
         private Texture2D mCar;
@@ -32,9 +32,11 @@ namespace RhythmCrash
         private Vector2 mCarPosition = new Vector2(280, 440);
         private int mMoveCarX = 160;
         private int mVelocityY;
-        private int mHazardsPassed;
+        private int mScore;
+        private int mHazardsPerfect, mHazardsGood, mHazardsMiss;
         private int mHazardsCombo;
         private int mCurrentRoadIndex;
+        private bool mLastHazardAtLeft;
         private double mExitCountDown = 10;
 
         private int[] mRoadY = new int[2]; //使用两张路面
@@ -62,9 +64,14 @@ namespace RhythmCrash
         {
             TitleScreen,      // 初始片头
             Running,
-            /*Crash,           // 碰撞
-            GameOver,*/
-            Success
+            Success //结束
+        }
+
+        private enum Sign
+        {
+            Perfect,
+            Good,
+            Miss
         }
         //--------------------- Tian --------------------------
 
@@ -102,6 +109,7 @@ namespace RhythmCrash
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            signBatch = new SpriteBatch(GraphicsDevice);
 
             mCar = Content.Load<Texture2D>("Images/Car");
             mBackground = Content.Load<Texture2D>("Images/Background");
@@ -160,7 +168,8 @@ namespace RhythmCrash
             mRoadY[0] = 0;
             mRoadY[1] = -1 * mRoad.Height;
 
-            mHazardsPassed = 0;
+            mScore = 0;
+            mHazardsPerfect = mHazardsGood = mHazardsMiss = 0;
             mHazardsCombo = 0;
             mVelocityY = 600; //根据用户所选速度
             mCurrentRoadIndex = 0;  //从第0张路面开始
@@ -199,8 +208,6 @@ namespace RhythmCrash
                     {
                         MediaPlayer.Stop();
 
-                        ExitCountdown(gameTime);
-
                         if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && mPreviousKeyboardState.IsKeyDown(Keys.Space) == false)
                         {
                             StartGame();
@@ -224,10 +231,11 @@ namespace RhythmCrash
                             mCurrentState = State.Success;
 
                         foreach (Hazard aHazard in mHazards)
-                        {
-                            CheckCollision(aHazard);
-                            MoveHazard(aHazard);
-                        }
+                            if (aHazard.Visible == true)
+                            {
+                                CheckCollision(aHazard);
+                                MoveHazard(aHazard);
+                            }
 
                         UpdateHazards(gameTime);
                         break;
@@ -261,16 +269,14 @@ namespace RhythmCrash
             if (theHazard.Position.Y > graphics.GraphicsDevice.Viewport.Height && theHazard.Visible == true)
             {
                 theHazard.Visible = false;
-                
                 mHazardsCombo = 0;
-                //Miss
-
+                ++mHazardsMiss;
             }
         }
 
         private void UpdateHazards(GameTime theGameTime)
         {
-            if (nowObject[1].AsDouble <= MediaPlayer.PlayPosition.TotalSeconds + (600.0 / mVelocityY) * 1.1)
+            if (nowObject[1].AsDouble <= MediaPlayer.PlayPosition.TotalSeconds + (600.0 / mVelocityY) * 0.9)
             {
                 if (nowObject[0].AsInt >= 0)
                     AddHazard();
@@ -313,29 +319,28 @@ namespace RhythmCrash
         private void CheckCollision(Hazard theHazard)
         {
             // 分别计算并使用封闭（包裹）盒给障碍物和车
-            BoundingBox aHazardBox = new BoundingBox(new Vector3(theHazard.Position.X, theHazard.Position.Y, 0), new Vector3(theHazard.Position.X + (mHazard.Width * .4f), theHazard.Position.Y + ((mHazard.Height - 50) * .4f), 0));
+            BoundingBox aHazardBox = new BoundingBox(new Vector3(theHazard.Position.X, theHazard.Position.Y, 0), new Vector3(theHazard.Position.X + (mHazard.Width * .5f), theHazard.Position.Y + ((mHazard.Height) * .5f), 0));
             BoundingBox aCarBox = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .2f), mCarPosition.Y + (mCar.Height * .2f), 0));
-
+            BoundingBox aCarBoxPerfect = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .2f), mCarPosition.Y + (mCar.Height * .2f)*0.05f, 0));
+            BoundingBox aHazardBoxPerfect = new BoundingBox(new Vector3(theHazard.Position.X, theHazard.Position.Y + (mHazard.Height * .25f), 0), new Vector3(theHazard.Position.X + (mHazard.Width * .5f), theHazard.Position.Y + ((mHazard.Height) * .5f), 0));
             if (aHazardBox.Intersects(aCarBox) == true) // 碰上了吗?
             {
-                mHazardsPassed++;
-                //Perfect, Good
+                if (aHazardBoxPerfect.Intersects(aCarBoxPerfect) == true) //offset < 0.5 * mHazard.Height)
+                {
+                    mScore += 2;
+                    mHazardsPerfect++;
+                }
+                else 
+                {
+                    mScore++;
+                    mHazardsGood++;
+                }
                 mHazardsCombo++;
                 hitSE.Play();
                 theHazard.Visible = false;
-                theHazard.Position = new Vector2(-1000, -1000);
             }
         }
         //----------------------- Tian ------------------------------------------------------
-
-        private void ExitCountdown(GameTime theGameTime)
-        {
-            mExitCountDown -= theGameTime.ElapsedGameTime.TotalSeconds;
-            if (mExitCountDown < 0)
-            {
-                this.Exit();
-            }
-        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -356,7 +361,6 @@ namespace RhythmCrash
                         //Draw the display text for the Title screen
                         DrawTextCentered("Drive Fast And Avoid the Oncoming Obstacles", 200);
                         DrawTextCentered("Press 'Space' to begin", 260);
-                        DrawTextCentered("Exit in " + ((int)mExitCountDown).ToString(), 475);
 
                         break;
                     }
@@ -365,17 +369,19 @@ namespace RhythmCrash
                     {
                         DrawRoad();
                         DrawHazards();
-
+                        //DrawSign();
                         spriteBatch.Draw(mCar, mCarPosition, new Rectangle(0, 0, mCar.Width, mCar.Height), Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Perfect: \n" + mHazardsPerfect.ToString(), new Vector2(28, 370), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Good: \n" + mHazardsGood.ToString(), new Vector2(28, 420), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Miss: \n" + mHazardsMiss.ToString(), new Vector2(28, 470), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         spriteBatch.DrawString(mFont, "Combo: \n" + mHazardsCombo.ToString(), new Vector2(28, 520), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
-                        spriteBatch.DrawString(mFont, "Score: \n" + mHazardsPassed.ToString(), new Vector2(28, 25), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Score: \n" + mScore.ToString(), new Vector2(28, 25), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         if (mCurrentState == State.Success)
                         {
                             DrawTextDisplayArea();
 
                             DrawTextCentered("Congratulations!", 200);
                             DrawTextCentered("Press 'Space' to play again.", 260);
-                            DrawTextCentered("Exit in " + ((int)mExitCountDown).ToString(), 400);
                         }
 
                         break;
@@ -397,7 +403,6 @@ namespace RhythmCrash
             }
         }
 
-        private bool mLastHazardAtLeft;
         private void DrawHazards()
         {
             float mLastHazardY = 800;
@@ -406,7 +411,7 @@ namespace RhythmCrash
                 if (aHazard.Visible == true)
                 {
 
-                    spriteBatch.Draw(mHazard, aHazard.Position, new Rectangle(0, 0, mHazard.Width, mHazard.Height), Color.White, 0, new Vector2(0, 0), 0.4f, SpriteEffects.None, 0);
+                    spriteBatch.Draw(mHazard, aHazard.Position, new Rectangle(0, 0, mHazard.Width, mHazard.Height), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
                     if (aHazard.Position.Y <= mLastHazardY)
                     {
                         mLastHazardAtLeft = (aHazard.Position.X == 275);
