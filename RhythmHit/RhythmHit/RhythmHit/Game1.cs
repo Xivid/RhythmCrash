@@ -50,7 +50,7 @@ namespace RhythmHit
 
 
         private bool loadFail = false;
-        private int difficulty = 2;
+        private int difficulty = 1;
         private int musicChosen = 0;
         private List<string> musicNames;
         private int noteCounter = 0;
@@ -419,8 +419,8 @@ namespace RhythmHit
                 case State.TitleScreen:
                     {
                         //Draw the display text for the Title screen
-                        DrawTextCentered("Drive and Hit the Rhythm", 30, 2.0f, Color.Red);
-                        DrawTextCentered("Press Left/Right to select difficulty, Up/Down to select songs, Space to begin", 100, 0.8f, Color.LightGray);
+                        DrawTextCentered("Drive and Hit the Rhythm", 30, 2.0f, new Color(200, 200, 200));
+                        DrawTextCentered("Press Left/Right to select songs, Up/Down to select difficulty, Space to begin", 100, 0.8f, new Color(200, 200, 200));
                         if (musicChosen > 0)
                             spriteBatch.Draw(mLeft, new Rectangle(30, 280, 100, 80), Color.White);
                         if (musicChosen < musicNames.Count - 1)
@@ -430,13 +430,13 @@ namespace RhythmHit
                         switch (difficulty)
                         {
                             case 0:
-                                DrawTextCentered("Easy", 550, 1.0f, Color.Green);
+                                DrawTextCentered("Easy", 550, 1.0f, new Color(58, 183, 239));
                                 break;
                             case 1:
-                                DrawTextCentered("Normal", 550, 1.0f, Color.Yellow);
+                                DrawTextCentered("Normal", 550, 1.0f, new Color(191, 255, 160));
                                 break;
                             case 2:
-                                DrawTextCentered("Hard", 550, 1.0f, Color.Red);
+                                DrawTextCentered("Hard", 550, 1.0f, new Color(249, 90, 101));
                                 break;
                         }
                         break;
@@ -447,35 +447,53 @@ namespace RhythmHit
                         DrawRoad();
                         DrawHazards(gameTime);
                         spriteBatch.Draw(mCar, mCarPosition, new Rectangle(0, 0, mCar.Width, mCar.Height), Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 0);
-                        spriteBatch.DrawString(mFont, "Score: \n" + mScore.ToString(), new Vector2(28, 25), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
-                        spriteBatch.DrawString(mFont, "Combo: \n" + mHazardsCombo.ToString(), new Vector2(28, 520), Color.LightGray, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Score: \n" + mScore.ToString(), new Vector2(28, 25), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(mFont, "Combo: \n" + mHazardsCombo.ToString(), new Vector2(28, 520), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         
                         if (mCurrentState == State.Success)
                         {
                             DrawTextDisplayArea();
                             String aGrade;
+                            Color aColor;
                             if (mHazardsPerfect == hitObjects.Count)
+                            {
                                 aGrade = "S";
+                                aColor = new Color(200, 200, 200);
+                            }
                             else if (mHazardsPerfect >= 0.9 * hitObjects.Count && mHazardsMiss <= 0.05 * hitObjects.Count)
+                            {
                                 aGrade = "A";
+                                aColor = new Color(58, 183, 239);
+                                
+                            }
                             else if (mHazardsPerfect >= 0.7 * hitObjects.Count)
+                            {
                                 aGrade = "B";
+                                aColor = new Color(191, 255, 160);
+                                
+                            }
                             else if (mHazardsPerfect >= 0.5 * hitObjects.Count)
+                            {
                                 aGrade = "C";
+                                aColor = new Color(251, 208, 114);
+                            }
                             else
+                            {
                                 aGrade = "D";
-                            DrawTextCentered(aGrade, 80, 5.0f, Color.Red);
-                            DrawTextCentered("Perfect: " + mHazardsPerfect.ToString(), 190, 2.0f, Color.Purple);
-                            DrawTextCentered("Good: " + mHazardsGood.ToString(), 230, 2.0f, Color.Purple);
-                            DrawTextCentered("Miss: " + mHazardsMiss.ToString(), 270, 2.0f, Color.Purple);
-                            DrawTextCentered("Press 'Space' to go back.", 400, 1.0f, Color.LightGray);
+                                aColor = new Color(249, 90, 101);
+                            }
+                            DrawTextCentered(aGrade, 80, 5.0f, aColor);
+                            DrawTextCentered("Perfect: " + mHazardsPerfect.ToString(), 190, 2.0f, new Color(58, 183, 239));
+                            DrawTextCentered("Good: " + mHazardsGood.ToString(), 230, 2.0f, new Color(191, 255, 160));
+                            DrawTextCentered("Miss: " + mHazardsMiss.ToString(), 270, 2.0f, new Color(249, 90, 101));
+                            DrawTextCentered("Press 'Space' to go back.", 400, 1.0f, new Color(200, 200, 200));
                         }
                         else if (mCurrentState == State.Paused)
                         {
                             DrawTextDisplayArea();
 
                             DrawTextCentered("Paused", 200, 3.0f, Color.Red);
-                            DrawTextCentered("Press 'P' to continue playing.", 260, 1.0f, Color.LightGray);
+                            DrawTextCentered("Press 'P' to continue playing.", 280, 1.0f, new Color(200, 200, 200));
                         }
                         break;
                     }
@@ -517,15 +535,15 @@ namespace RhythmHit
                     {
                         case Hazard.Sign.Perfect:
                             aSize = mFont.MeasureString("Perfect   ");
-                            spriteBatch.DrawString(mFont, "Perfect\n", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), Color.Red, 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
+                            spriteBatch.DrawString(mFont, "Perfect\n", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), new Color(58, 183, 239), 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
                             break;
                         case Hazard.Sign.Good:
                             aSize = mFont.MeasureString("Good   ");
-                            spriteBatch.DrawString(mFont, "Good", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), Color.Green, 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
+                            spriteBatch.DrawString(mFont, "Good", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), new Color(191, 255, 160), 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
                             break;
                         case Hazard.Sign.Miss:
                             aSize = mFont.MeasureString("Miss   ");
-                            spriteBatch.DrawString(mFont, "Miss", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), Color.Gray, 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
+                            spriteBatch.DrawString(mFont, "Miss", new Vector2(aHazard.Position.X == 275 ? 275 - aSize.X : 480 + aSize.X, aHazard.Position.Y), new Color(249, 90, 101), 0, new Vector2(0, 0), (float)(2.0 - aHazard.SignDisplayTime * 2), SpriteEffects.None, 0);
                             break;
                     }
                     aHazard.SignDisplayTime -= gameTime.ElapsedGameTime.TotalSeconds;

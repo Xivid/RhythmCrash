@@ -1,5 +1,4 @@
 Content\MyFont.xnb
-Content\Images\Background.xnb
 Content\Images\Car.xnb
 Content\Images\Hazard.xnb
 Content\Images\Road.xnb
@@ -17,6 +16,7 @@ Content\Images\right.xnb
 Content\Music\Canon\beatmap.xnb
 Content\Music\CroatianRhapsody\beatmap.xnb
 Content\Music\LetItGo\beatmap.xnb
+Content\Images\Background.xnb
 Content\Music\CroatianRhapsody\CroatianRhapsody.wma
 Content\Music\LetItGo\LetItGo.wma
 Content\Music\Canon\Canon.wma

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="RhythmHit.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="RhythmHit.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="Game.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -93,24 +93,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RhythmHit.exe" size="39936">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RhythmHit.exe" size="40448">
       <assemblyIdentity name="RhythmHit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>k/+ckd6ZCYOdVIXLZGBOawTAOCI=</dsig:DigestValue>
+        <dsig:DigestValue>jtPPs6YDHGMllPpK6jEqco3vuOk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Content\Images\Background.xnb" size="1000187">
+  <file name="Content\Images\Background.xnb" size="6220987">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>YdMkSZypetSEUfY10pLneV3mvgk=</dsig:DigestValue>
+      <dsig:DigestValue>wmDAi9R+5+6kbBV8/S9g+sWOvcY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Images\Car.xnb" size="1477135">
@@ -155,7 +155,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>OvVj00W/J5/6g1h2MRCopFtC7cc=</dsig:DigestValue>
+      <dsig:DigestValue>yOshrjSIPVLAAbC6sH0TGXdCHuk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\Canon\Album.xnb" size="3145915">

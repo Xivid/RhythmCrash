@@ -11,15 +11,6 @@
       <Time>2015-07-22T22:05:05.0716+08:00</Time>
     </Item>
     <Item>
-      <Source>Images\Background.png</Source>
-      <Name>Images\Background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Background.xnb</Output>
-      <Time>2015-07-22T18:22:46.0062+08:00</Time>
-    </Item>
-    <Item>
       <Source>Images\Car.png</Source>
       <Name>Images\Car</Name>
       <Importer>TextureImporter</Importer>
@@ -44,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Road.xnb</Output>
-      <Time>2015-07-22T18:22:46.0062+08:00</Time>
+      <Time>2015-07-22T23:28:54+08:00</Time>
     </Item>
     <Item>
       <Source>Music\CroatianRhapsody\CroatianRhapsody.mp3</Source>
@@ -174,6 +165,15 @@
       <Options>None</Options>
       <Output>C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\LetItGo\beatmap.xnb</Output>
       <Time>2015-07-22T23:01:04.1184+08:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Background.jpg</Source>
+      <Name>Images\Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Background.xnb</Output>
+      <Time>2015-07-22T23:25:34.4222+08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
