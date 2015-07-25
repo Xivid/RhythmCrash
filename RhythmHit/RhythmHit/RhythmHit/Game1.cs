@@ -30,7 +30,7 @@ namespace RhythmHit
         private KeyboardState mPreviousKeyboardState;
         SpriteBatch spriteBatch, signBatch;
 
-        private Vector2 mCarPosition = new Vector2(280, 440);
+        private Vector2 mCarPosition = new Vector2(290, 440);
         private int mMoveCarX = 160;
         private int mVelocityY;
         private int mScore;
@@ -42,6 +42,7 @@ namespace RhythmHit
         private int[] mRoadY = new int[2]; //使用两张路面
         private List<Hazard> mHazards = new List<Hazard>();
         private List<Song> mMusics = new List<Song>();
+        private List<Song> mMusicPreviews = new List<Song>(); //preview part of the musics
 
         // 定义随机数 - 比方用来表示障碍物的位置
         private Random mRandom = new Random();
@@ -114,9 +115,7 @@ namespace RhythmHit
             mBackground = Content.Load<Texture2D>("Images/Background");
             mRoad = Content.Load<Texture2D>("Images/Road");
             mHazard = Content.Load<Texture2D>("Images/Hazard");
-            //mLeft = Content.Load<Texture2D>("Images/left");
-            //mRight = Content.Load<Texture2D>("Images/right");
-            // 定义字体
+            // 定义不同大小的字体
             mFonts[0] = Content.Load<SpriteFont>("Fonts/0.8x");
             mFonts[1] = Content.Load<SpriteFont>("Fonts/1x");
             mFonts[2] = Content.Load<SpriteFont>("Fonts/2x");
@@ -132,7 +131,7 @@ namespace RhythmHit
                 musicNames[i] = dirs[dirs.Length - 1];
                 mAlbums.Add(Content.Load<Texture2D>("Music/" + musicNames[i] + "/Album")); // 载入所有封面
                 mMusics.Add(Content.Load<Song>("Music/" + musicNames[i] + "/" + musicNames[i]));
-                //mBeatmap.Add(Content.Load<string>("Music/" + musicNames[i] + "/beatmap"));
+                mMusicPreviews.Add(Content.Load<Song>("Music/" + musicNames[i] + "/Preview"));
                 BeatmapJson.Add(JSON.Parse(Content.Load<string>("Music/" + musicNames[i] + "/beatmap")));
             }
 
@@ -155,13 +154,12 @@ namespace RhythmHit
             mScore = 0;
             mHazardsPerfect = mHazardsGood = mHazardsMiss = 0;
             mHazardsCombo = 0;
-            mVelocityY = 600; //根据用户所选速度
+            mVelocityY = 300 + difficulty*300; //根据用户所选速度Medium:600 
             mCurrentRoadIndex = 0;  //从第0张路面开始
             mHazards.Clear();
 
             // Read beatmap
             String musicname = musicNames[musicChosen];
-            //beatmap = JSON.Parse(mBeatmap[musicChosen]);
             beatmap = BeatmapJson[musicChosen];
             switch (difficulty)
             {
@@ -188,14 +186,13 @@ namespace RhythmHit
             if (loadFail)
                 this.Exit();
 
-
-
             mCurrentState = State.Running;
 
             noteCounter = 0;
             nowObject = hitObjects[0].AsArray;
 
             MediaPlayer.Play(mMusics[musicChosen]);
+            MediaPlayer.Volume = 1.0f;
         }
 
         /// <summary>
@@ -208,8 +205,7 @@ namespace RhythmHit
             KeyboardState aCurrentKeyboardState = Keyboard.GetState();
 
             //Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                aCurrentKeyboardState.IsKeyDown(Keys.Escape) == true)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || aCurrentKeyboardState.IsKeyDown(Keys.Escape) == true)
             {
                 this.Exit();
             }
@@ -220,17 +216,24 @@ namespace RhythmHit
             {
                 case State.TitleScreen:
                     {
-                        if (MediaPlayer.State == MediaState.Stopped)
-                            MediaPlayer.Play(mMusics[musicChosen]);
-                        if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true && mPreviousKeyboardState.IsKeyDown(Keys.Left) == false && musicChosen > 0)
+                        //声音淡入淡出效果
+                        if (MediaPlayer.PlayPosition.TotalSeconds < 2)
+                            MediaPlayer.Volume = (float)MediaPlayer.PlayPosition.TotalSeconds * 0.5f;
+
+                        if (MediaPlayer.PlayPosition.TotalSeconds + 2 > mMusicPreviews[musicChosen].Duration.TotalSeconds)
+                            MediaPlayer.Volume = (float)(mMusicPreviews[musicChosen].Duration.TotalSeconds - MediaPlayer.PlayPosition.TotalSeconds) * 0.5f;
+
+                        if (MediaPlayer.State == MediaState.Stopped) //Play the preview part of the music and loop
+                            MediaPlayer.Play(mMusicPreviews[musicChosen]);
+                        if (aCurrentKeyboardState.IsKeyDown(Keys.Left) == true && mPreviousKeyboardState.IsKeyDown(Keys.Left) == false && musicChosen > 0) 
                         {
                             musicChosen--;
-                            MediaPlayer.Play(mMusics[musicChosen]);
+                            MediaPlayer.Play(mMusicPreviews[musicChosen]); //Play part of the chosen music
                         }
                         if (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true && mPreviousKeyboardState.IsKeyDown(Keys.Right) == false && musicChosen < musicNames.Count - 1)
                         {
                             musicChosen++;
-                            MediaPlayer.Play(mMusics[musicChosen]);
+                            MediaPlayer.Play(mMusicPreviews[musicChosen]);
                         }
                         if (aCurrentKeyboardState.IsKeyDown(Keys.Up) == true && mPreviousKeyboardState.IsKeyDown(Keys.Up) == false && difficulty < 2)
                         {
@@ -281,7 +284,7 @@ namespace RhythmHit
                             break;
                         }
 
-                        //Change: Use Left and Right arrows to control
+                        //Use Left and Right arrows to control
                         if ((aCurrentKeyboardState.IsKeyDown(Keys.Left) == true && mPreviousKeyboardState.IsKeyDown(Keys.Left) == false && mMoveCarX < 0)
                             || (aCurrentKeyboardState.IsKeyDown(Keys.Right) == true && mPreviousKeyboardState.IsKeyDown(Keys.Right) == false && mMoveCarX > 0))
                         {
@@ -342,7 +345,7 @@ namespace RhythmHit
 
         private void UpdateHazards()
         {
-            if (nowObject[1].AsDouble <= MediaPlayer.PlayPosition.TotalSeconds + (600.0 / mVelocityY) * 0.9)
+            if (nowObject[1].AsDouble <= MediaPlayer.PlayPosition.TotalSeconds + ((mCarPosition.Y + mHazard.Height * 0.7) / mVelocityY))
             {
                 if (noteCounter < hitObjects.Count)
                 {
@@ -386,8 +389,8 @@ namespace RhythmHit
         {
             // 分别计算并使用封闭（包裹）盒给障碍物和车
             BoundingBox aHazardBox = new BoundingBox(new Vector3(theHazard.Position.X, theHazard.Position.Y, 0), new Vector3(theHazard.Position.X + (mHazard.Width * .5f), theHazard.Position.Y + ((mHazard.Height) * .5f), 0));
-            BoundingBox aCarBox = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .2f), mCarPosition.Y + (mCar.Height * .2f), 0));
-            BoundingBox aCarBoxPerfect = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .2f), mCarPosition.Y + (mCar.Height * .2f) * 0.05f, 0));
+            BoundingBox aCarBox = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .8f), mCarPosition.Y + (mCar.Height * .8f), 0));
+            BoundingBox aCarBoxPerfect = new BoundingBox(new Vector3(mCarPosition.X, mCarPosition.Y, 0), new Vector3(mCarPosition.X + (mCar.Width * .8f), mCarPosition.Y + (mCar.Height * .8f) * 0.05f, 0));
             BoundingBox aHazardBoxPerfect = new BoundingBox(new Vector3(theHazard.Position.X, theHazard.Position.Y + (mHazard.Height * .25f), 0), new Vector3(theHazard.Position.X + (mHazard.Width * .5f), theHazard.Position.Y + ((mHazard.Height) * .5f), 0));
             if (aHazardBox.Intersects(aCarBox) == true) // 碰上了
             {
@@ -431,13 +434,11 @@ namespace RhythmHit
 
                         DrawTextCentered("Drive and Hit the Rhythm", 30, 2.0f, new Color(200, 200, 200));
                         DrawTextCentered("Left/Right: Music  Up/Down: Difficulty  Space: Start", 100, 0.8f, new Color(200, 200, 200));
-                        if (musicChosen > 0)
+                        if (musicChosen > 0) //prev sign
                             spriteBatch.DrawString(mFonts[5], "<<", new Vector2(40, 240), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
-                            //spriteBatch.Draw(mLeft, new Rectangle(30, 280, 100, 80), Color.White);
 
-                        if (musicChosen < musicNames.Count - 1)
+                        if (musicChosen < musicNames.Count - 1) //next sign
                             spriteBatch.DrawString(mFonts[5], ">>", new Vector2(770 - mFonts[5].MeasureString(">>").X, 240), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
-                            //spriteBatch.Draw(mRight, new Rectangle(680, 280, 100, 80), Color.White);
 
                         spriteBatch.Draw(mAlbums[musicChosen], new Rectangle(155, 140, 500, 350), Color.White);
                         DrawTextCentered(BeatmapJson[musicChosen]["Title"], 500, 1.5f, new Color(200, 200, 200));
@@ -459,7 +460,7 @@ namespace RhythmHit
                 default:
                     {
                         DrawRoad();
-                        spriteBatch.Draw(mCar, mCarPosition, new Rectangle(0, 0, mCar.Width, mCar.Height), Color.White, 0, new Vector2(0, 0), 0.2f, SpriteEffects.None, 0);
+                        spriteBatch.Draw(mCar, mCarPosition, new Rectangle(0, 0, mCar.Width, mCar.Height), Color.White, 0, new Vector2(0, 0), 0.8f, SpriteEffects.None, 0);
                         spriteBatch.DrawString(mFonts[1], "Score\n" + mScore.ToString(), new Vector2(28, 25), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         spriteBatch.DrawString(mFonts[1], "Combo\n" + mHazardsCombo.ToString(), new Vector2(28, 520), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
                         spriteBatch.DrawString(mFonts[1], "Pause\nwith \"P\"", new Vector2(680, 25), new Color(200, 200, 200), 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);

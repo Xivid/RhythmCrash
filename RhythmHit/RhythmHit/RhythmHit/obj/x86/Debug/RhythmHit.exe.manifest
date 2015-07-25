@@ -93,14 +93,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RhythmHit.exe" size="40960">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RhythmHit.exe" size="41472">
       <assemblyIdentity name="RhythmHit" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Bl7788gCl9uxl2gc6qpob4aaskM=</dsig:DigestValue>
+        <dsig:DigestValue>W82gCwSjuCYUfRXUKXHgmote3gA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -167,31 +167,31 @@
       <dsig:DigestValue>wmDAi9R+5+6kbBV8/S9g+sWOvcY=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Images\Car.xnb" size="1477135">
+  <file name="Content\Images\Car.xnb" size="70187">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>h+4U8zpnDR11doER/86x6kWbNkQ=</dsig:DigestValue>
+      <dsig:DigestValue>2TdvAKDrYZuxCS5N7jCkEmT3dGs=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Images\Hazard.xnb" size="126667">
+  <file name="Content\Images\Hazard.xnb" size="100555">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>wYhqMb87DoMUr/puTrl1AXH2YcI=</dsig:DigestValue>
+      <dsig:DigestValue>9PQfi43YauYSRNTOevoK90apoD0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Images\Road.xnb" size="1920187">
+  <file name="Content\Images\Road.xnb" size="5760187">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>ywmNjJWOUE8kdykKijIi7JwhyxA=</dsig:DigestValue>
+      <dsig:DigestValue>9MC+y7v/XRXUALJ/JXu54wElh2A=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\Canon\Album.xnb" size="3145915">
@@ -209,7 +209,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>H63aU/EP6zu1gWTI0OtNiPdq9U8=</dsig:DigestValue>
+      <dsig:DigestValue>SxSDtl+hLe2kc3Kh9fMkkFGy6W4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\Canon\Canon.wma" size="3709451">
@@ -239,6 +239,24 @@
       <dsig:DigestValue>oWgp3X99DS0DEGyHpuDQ7D7O0sI=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Content\Music\Canon\Preview.wma" size="989259">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>iMlRv6L0mw385ERVM16y/HnUE0I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Music\Canon\Preview.xnb" size="125">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>4N4Dexr3mBt9A3IwW+YtvbsKL/I=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Content\Music\CroatianRhapsody\Album.xnb" size="3145915">
     <hash>
       <dsig:Transforms>
@@ -248,13 +266,13 @@
       <dsig:DigestValue>HtuxMh/8p62Si70pEVRYLT0xGls=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Content\Music\CroatianRhapsody\beatmap.xnb" size="29695">
+  <file name="Content\Music\CroatianRhapsody\beatmap.xnb" size="29569">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>i/dRSVnDJNP955Tc3EsKEur3vTM=</dsig:DigestValue>
+      <dsig:DigestValue>TjbGta8wkayzhNCSL0ZT1hbeEA4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\CroatianRhapsody\CroatianRhapsody.wma" size="5185871">
@@ -263,7 +281,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>qwNMOE8KTIL7Dzhuepz5o3W18LA=</dsig:DigestValue>
+      <dsig:DigestValue>l2utOBe/3viExsGSm8hgy6yFTh0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\CroatianRhapsody\CroatianRhapsody.xnb" size="134">
@@ -282,6 +300,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>uWAgsgZcjXgY8WAk5tgbJDNRWBY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Music\CroatianRhapsody\Preview.wma" size="1069791">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>wgRAS66ZqxQm2QUKzvsZ0SqNxZQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Music\CroatianRhapsody\Preview.xnb" size="125">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>jdW7eRx5WzwprOUPwW8IvCcrEVo=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Content\Music\LetItGo\Album.xnb" size="3767691">
@@ -327,6 +363,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>pCT4+bjuzJht2m+qw8Ie7mWc7Hk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Music\LetItGo\Preview.wma" size="1141375">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>2FQo2mTThYKRL8I2Q0D7nP+DR7k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Content\Music\LetItGo\Preview.xnb" size="125">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>H7/+BdktdZUZ0Uo0q1zgdrbEXJ0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Game.ico" size="4286">

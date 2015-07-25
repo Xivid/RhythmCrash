@@ -1,4 +1,3 @@
-C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\MyFont.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Background.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Car.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\Hazard.xnb
@@ -21,8 +20,6 @@ C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\Canon\hit.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\LetItGo\LetItGo.wma
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\Canon\Canon.wma
-C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\left.xnb
-C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Images\right.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\Canon\beatmap.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\CroatianRhapsody\beatmap.xnb
 C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\LetItGo\beatmap.xnb
@@ -65,3 +62,15 @@ C:\Users\Alien\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\
 C:\Users\Alien\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\5x.xnb
 C:\Users\Alien\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\0.8x.xnb
 C:\Users\Alien\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\1.5x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\1x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\2x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\3x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\5x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\0.8x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Fonts\1.5x.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\Canon\Preview.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\CroatianRhapsody\Preview.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\LetItGo\Preview.xnb
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\Canon\Preview.wma
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\CroatianRhapsody\Preview.wma
+C:\Users\Administrator\Documents\GitHub\RhythmHit\RhythmHit\RhythmHit\RhythmHit\bin\x86\Debug\Content\Music\LetItGo\Preview.wma
